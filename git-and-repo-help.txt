@@ -1,0 +1,83 @@
+Quellen:
+========
+* [GUIDE] How to build CM10.1 (Android 4.2.1) for the Nexus 4 (mako) => http://forum.xda-developers.com/showthread.php?t=2047981
+* [Guide] How to use Github => http://forum.xda-developers.com/showthread.php?t=1877040
+* Version Control with Repo and Git => http://source.android.com/source/version-control.html
+* git Reference => http://git-scm.com/docs
+
+Init Repo:
+==========
+0. Verzeichnis <REPO_HOMEDIR> anlegen
+1. Repo im <REPO_HOMEDIR> initialisieren: "repo init -u git://github.com/mallez/android-manifest.git -b cm-10.1"
+2. Sourcen herunterladen: "repo sync"
+3. lokales manifest <REPO_HOMEDIR>/.repo/local_manifests/roomservice.xml um device (mako) Projekte erweitern
+4. noch einmal "repo sync"
+5. prebuilds herunterladen: <REPO_HOMEDIR>/vendor/cm/get-prebuilts
+
+Cyanogenmod bauen:
+==================
+1. ". build/envsetup.sh"
+2. "branch mako"
+
+
+Aenderungen am ROM
+==================
+1. Fork erstellen
+1.1 unnötiger branches im Fork löschen
+2. Fork im Manifest (default.xml) einbauen
+3.1 das Verzeichnis löschen, in das die neuen Sourcen ausgecheckt werden
+3.2 "repo sync"
+4 ins entprechende Verzeichnis wechseln
+5. git repo fetchen: "git fetch mallez"
+6. eigenen Fork auschecken: "git checkout -t mallez/<BRANCH>"
+7. Aenderungen vornehmen
+8. CM bauen und testen
+9. Ueberblick der Aenderungen: "git status"
+10. Aenderungen in git registrieren: "git add <geaenderte Files>"
+11. Aenderungen committen: "git commit"
+12. Aenderungen nach github uebertragen: "git push https://<GIT-USERNAME>@github.com/mallez/<EIGENES-REPO> <BRANCH>
+13. git mit Remote abgleichen: "git fetch mallez"
+
+
+Merge upstream Aenderungen
+==========================
+1. in das Verzeichnis des entsprechenden Repos wechseln
+2. mit "git remote" checken, ob das geforkte Repo eingerichtet ist
+3. falls nicht eingerichtet, mit "git remote add --track <BRANCH> <ALIAS> <REMOTE_REPO>" einrichten
+   also z.B. "git remote add --track cm-10.1 cyanogen git://github.com/CyanogenMod/android.git"
+3.1 "git fetch cyanogen"
+4. mit "git remote" noch einmal checken
+2. mit "git merge <ALIAS>/<BRANCH>" mergen. Z.B. "git merge cyanogen/cm-10.1"
+
+
+Cherry-Picking aus anderen Sourcen
+===================================
+1. "remote hinzufuegen: git remote add trailblaizer git://github.com/trailblazerz/android_build.git
+2. fetch remote: git fetch trailblaizerz
+3. git cherry-pick <first_commit>..<last_commit>
+
+
+repo sync conflicts aufloesen
+==============================
+* das passiet nur, wenn die lokalen Aenderungen noch nicht in das remote repo gepusht wurden
+1. Konflikte loesen
+2. git add .
+3. git commit 
+4. git rebase --continue
+
+
+
+Nützlich git Befehle
+=====================
+Branch:
+* aktuell genutzen branch anzeigen: "git branch"
+* alle Branches anzeigen: "git branch -a"
+* neuen Branch erzeugen" "git branch <BRANCH>"
+
+
+
+Fehler Debugging:
+adb logcat *:E
+adb reboot recovery
+
+
