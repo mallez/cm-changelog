@@ -73,6 +73,7 @@ Branch:
 * aktuell genutzen branch anzeigen: "git branch"
 * alle Branches anzeigen: "git branch -a"
 * neuen Branch erzeugen" "git branch <BRANCH>"
+* Branch loeschen: git branch -D tmp
 
 
 
